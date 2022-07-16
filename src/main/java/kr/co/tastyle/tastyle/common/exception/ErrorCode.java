@@ -12,6 +12,7 @@ public enum ErrorCode {
     INVALID_KAKAO_SERVER_ERROR(BAD_REQUEST, "카카오 로그인 서버에 접근하는 중 에러가 발생했습니다."),
     INVALID_LOGIN_TYPE(BAD_REQUEST, "잘못된 로그인 타입입니다."),
     MAX_UPLOAD_SIZE(BAD_REQUEST, "파일 용량을 초과하였습니다."),
+    INVALID_INPUT_VALUE(BAD_REQUEST, "잘못된 입력값입니다."),
 
 
     /* 500 INTERNAL_SERVER_ERROR : 서버 내부 에러 */

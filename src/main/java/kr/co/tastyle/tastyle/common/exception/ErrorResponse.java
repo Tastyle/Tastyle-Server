@@ -5,16 +5,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
+import java.util.Map;
+
 import static kr.co.tastyle.tastyle.common.exception.ErrorCode.MAX_UPLOAD_SIZE;
 
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class ErrorResponse {
+public class ErrorResponse<T> {
     private int status;
     private String code;
-    private String message;
+    private T message;
 
     public static ResponseEntity<ErrorResponse> toCommonExceptionEntity(CommonException e) {
         return ResponseEntity
@@ -33,6 +35,17 @@ public class ErrorResponse {
                         .status(MAX_UPLOAD_SIZE.getHttpStatus().value())
                         .code(MAX_UPLOAD_SIZE.name())
                         .message(MAX_UPLOAD_SIZE.getMessage())
+                        .build());
+    }
+
+    public static ResponseEntity<ErrorResponse> toValidationException(Map<String, String> errors) {
+        ErrorCode errorCode = ErrorCode.INVALID_INPUT_VALUE;
+        return ResponseEntity
+                .status(errorCode.getHttpStatus())
+                .body(ErrorResponse.builder()
+                        .status(errorCode.getHttpStatus().value())
+                        .code(errorCode.name())
+                        .message(errors)
                         .build());
     }
 

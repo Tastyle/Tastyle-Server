@@ -74,15 +74,15 @@ public class JwtProvider {
             throw new CommonException(WRONG_TOKEN_SIGNATURE);
         }
         catch (ExpiredJwtException exception) {
-            log.error("만료된 JWT 토큰입니다.");
+            log.error("만료된 토큰입니다.");
             throw new CommonException(ErrorCode.EXPIRED_TOKEN);
         }
         catch (UnsupportedJwtException exception) {
-            log.error("지원되지 않는 JWT 토큰입니다.");
+            log.error("지원하지 않는 토큰입니다.");
             throw new CommonException(ErrorCode.UNSUPPORTED_TOKEN);
         }
         catch (IllegalArgumentException exception) {
-            log.error("JWT 토큰이 잘못되었습니다.");
+            log.error("잘못된 토큰입니다.");
             throw new CommonException(ErrorCode.WRONG_TOKEN);
         }
     }

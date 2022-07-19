@@ -2,7 +2,7 @@ package kr.co.tastyle.tastyle.src.user.controller;
 
 import kr.co.tastyle.tastyle.common.response.CommonResponse;
 import kr.co.tastyle.tastyle.jwt.SecurityUser;
-import kr.co.tastyle.tastyle.src.user.dto.MyPageResponse;
+import kr.co.tastyle.tastyle.src.user.dto.response.MyPageResponse;
 import kr.co.tastyle.tastyle.src.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -5,7 +5,7 @@ plugins {
     id 'java'
 }
 
-group = 'org.tastyle'
+group = 'kr.co.tastyle'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -24,16 +24,39 @@ ext {
 }
 
 dependencies {
+    // Spring
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'mysql:mysql-connector-java'
-    annotationProcessor 'org.projectlombok:lombok'
+
+    // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // DB
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'mysql:mysql-connector-java'
+
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
+    // Webflux
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    // Json Parse
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+    implementation 'com.google.code.gson:gson:2.8.7'
+
+    // OAuth
+    compileOnly 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {

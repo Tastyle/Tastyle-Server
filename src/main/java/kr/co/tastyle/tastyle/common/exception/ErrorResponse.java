@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Map;
 
 import static kr.co.tastyle.tastyle.common.exception.ErrorCode.MAX_UPLOAD_SIZE;
@@ -14,49 +16,70 @@ import static kr.co.tastyle.tastyle.common.exception.ErrorCode.MAX_UPLOAD_SIZE;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ErrorResponse<T> {
-    private int status;
-    private String code;
+    private int code;
     private T message;
 
+    private ErrorResponse(ErrorCode errorCode) {
+        this.code = errorCode.getCode();
+        this.message = (T) errorCode.getMessage();
+    }
+
+    private ErrorResponse(ErrorCode errorCode, String message) {
+        this.code = errorCode.getCode();
+        this.message = (T) message;
+    }
+
+    // 공통 Exception
     public static ResponseEntity<ErrorResponse> toCommonExceptionEntity(CommonException e) {
         return ResponseEntity
                 .status(e.getErrorCode().getHttpStatus())
                 .body(ErrorResponse.builder()
-                        .status(e.getErrorCode().getHttpStatus().value())
-                        .code(e.getErrorCode().name())
+                        .code(e.getErrorCode().getCode())
                         .message(e.getErrorCode().getMessage())
                         .build());
     }
 
+    // 파일 용량 초과 Exception
     public static ResponseEntity<ErrorResponse> toFileUploadExceptionEntity(MaxUploadSizeExceededException e) {
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+                .badRequest()
                 .body(ErrorResponse.builder()
-                        .status(MAX_UPLOAD_SIZE.getHttpStatus().value())
-                        .code(MAX_UPLOAD_SIZE.name())
+                        .code(MAX_UPLOAD_SIZE.getCode())
                         .message(MAX_UPLOAD_SIZE.getMessage())
                         .build());
     }
 
+    // DTO @Valid 검증 Exception
     public static ResponseEntity<ErrorResponse> toValidationException(Map<String, String> errors) {
         ErrorCode errorCode = ErrorCode.INVALID_INPUT_VALUE;
         return ResponseEntity
-                .status(errorCode.getHttpStatus())
+                .badRequest()
                 .body(ErrorResponse.builder()
-                        .status(errorCode.getHttpStatus().value())
-                        .code(errorCode.name())
+                        .code(errorCode.getCode())
                         .message(errors)
                         .build());
     }
 
     public static ResponseEntity<ErrorResponse> toAllExceptionEntity(Exception e) {
-        ErrorCode errorCode = ErrorCode.SERVER_ERROR;
+        ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
         return ResponseEntity
-                .status(errorCode.getHttpStatus())
+                .internalServerError()
                 .body(ErrorResponse.builder()
-                        .status(errorCode.getHttpStatus().value())
-                        .code(errorCode.name())
-                        .message(errorCode.getMessage())
+                        .code(errorCode.getCode())
+                        .message(e.getMessage())
                         .build());
     }
+
+    public static ErrorResponse fromUnauthorizedException(String message) {
+        return new ErrorResponse(ErrorCode.UNAUTHORIZED, message);
+    }
+
+    public static ErrorResponse fromForbiddenException(String message) {
+        return new ErrorResponse(ErrorCode.FORBIDDEN, message);
+    }
+
+    public static ErrorResponse fromExceptionHandlerFilter(CommonException exception) {
+        return new ErrorResponse(exception.getErrorCode());
+    }
+
 }

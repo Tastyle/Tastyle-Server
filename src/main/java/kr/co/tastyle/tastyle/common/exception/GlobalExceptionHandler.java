@@ -17,7 +17,7 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     @ExceptionHandler(CommonException.class)
     public ResponseEntity<ErrorResponse> commonException(CommonException e) {
-        log.error("Handle applicationException: {}", e.getMessage());
+        log.error("Handle commonException: {}", e.getMessage());
         return ErrorResponse.toCommonExceptionEntity(e);
     }
 
@@ -29,6 +29,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> validationException(MethodArgumentNotValidException e) {
+        log.error("Handle validationException: {}", e.getMessage());
         BindingResult bindingResult = e.getBindingResult();
         Map<String, String> errors = new HashMap<>();
         bindingResult.getAllErrors()

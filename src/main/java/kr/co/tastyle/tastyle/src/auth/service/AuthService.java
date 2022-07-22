@@ -5,6 +5,7 @@ import kr.co.tastyle.tastyle.common.exception.ErrorCode;
 import kr.co.tastyle.tastyle.common.response.ResponseCode;
 import kr.co.tastyle.tastyle.jwt.JwtProvider;
 import kr.co.tastyle.tastyle.jwt.SecurityUser;
+import kr.co.tastyle.tastyle.src.auth.client.ClientGoogle;
 import kr.co.tastyle.tastyle.src.auth.dto.request.LoginRequest;
 import kr.co.tastyle.tastyle.src.auth.dto.response.LoginResponse;
 import kr.co.tastyle.tastyle.src.auth.client.ClientKakao;
@@ -26,7 +27,8 @@ import static kr.co.tastyle.tastyle.src.user.domain.enums.LoginType.*;
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
-    private final ClientKakao kaKaoInfo;
+    private final ClientKakao clientKakao;
+    private final ClientGoogle clientGoogle;
     private final JwtProvider jwtProvider;
 
     @Transactional
@@ -69,13 +71,21 @@ public class AuthService {
         if (loginType.equals(KAKAO)) {
             return getKakaoInfo(accessToken);
         }
+        else if (loginType.equals(GOOGLE)) {
+            return getGoogleInfo(accessToken);
+        }
         else {
             throw new CommonException(ErrorCode.INVALID_LOGIN_TYPE);
         }
     }
 
+    private String getGoogleInfo(String accessToken) {
+        String socialId = clientGoogle.getUserInfo(accessToken);
+        return socialId;
+    }
+
     private String getKakaoInfo(String accessToken) {
-        String socialId = kaKaoInfo.getUserInfo(accessToken);
+        String socialId = clientKakao.getUserInfo(accessToken);
         return socialId;
     }
 }

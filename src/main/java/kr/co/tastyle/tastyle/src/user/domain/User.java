@@ -6,6 +6,7 @@ import kr.co.tastyle.tastyle.src.user.domain.enums.DeviceType;
 import kr.co.tastyle.tastyle.src.user.domain.enums.LoginType;
 import kr.co.tastyle.tastyle.src.user.domain.enums.Role;
 import kr.co.tastyle.tastyle.src.user.domain.enums.Sex;
+import kr.co.tastyle.tastyle.src.user.dto.request.SignUpRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -60,5 +61,13 @@ public class User extends BaseTimeEntity {
                 .role(Role.ROLE_USER)
                 .status(NORMAL)
                 .build();
+    }
+
+    public void signUp(SignUpRequest signUpRequest) {
+        this.nickname = signUpRequest.getNickname();
+        this.profileImgUrl = signUpRequest.getProfileImgUrl();
+        this.introduction = signUpRequest.getIntroduction();
+        this.sex = signUpRequest.getSex();
+        this.birthDate = signUpRequest.getBirthDate();
     }
 }

@@ -20,7 +20,7 @@ public class RestaurantRestController {
      * Sub Area 선택 시 음식점 리스트 조회 for 평가하기
      */
     @GetMapping("")
-    public CommonResponse<List<RestaurantRatingResponse>> getRestaurantListForRating(@RequestParam Long subAreaId) {
+    public CommonResponse<List<RestaurantRatingResponse>> getRestaurantListForRating(@RequestParam List<Long> subAreaId) {
         log.info("[RestaurantRestController] getRestaurantListForRating");
         List<RestaurantRatingResponse> response = restaurantService.getRestaurantListForRating(subAreaId);
         return new CommonResponse<>(response);

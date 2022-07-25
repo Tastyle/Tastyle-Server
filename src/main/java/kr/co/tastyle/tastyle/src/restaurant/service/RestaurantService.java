@@ -16,8 +16,8 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
 
     @Transactional
-    public List<RestaurantRatingResponse> getRestaurantListForRating(Long subAreaId) {
-        List<Restaurant> restaurantList = restaurantRepository.findAllBySubAreaId(subAreaId);
+    public List<RestaurantRatingResponse> getRestaurantListForRating(List<Long> subAreaId) {
+        List<Restaurant> restaurantList = restaurantRepository.findAllBySubAreaIdIn(subAreaId);
         return RestaurantRatingResponse.ofList(restaurantList);
     }
 }

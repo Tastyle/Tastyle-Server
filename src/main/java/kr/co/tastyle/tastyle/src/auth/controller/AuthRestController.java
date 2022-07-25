@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 public class AuthRestController {
     private final AuthService authService;
 
+    /**
+     * 소셜 로그인, 회원가입
+     */
     @PostMapping("/login")
     public ResponseEntity<CommonResponse<LoginResponse>> login(@RequestBody LoginRequest loginRequest) {
         log.info("[AuthRestController] login");

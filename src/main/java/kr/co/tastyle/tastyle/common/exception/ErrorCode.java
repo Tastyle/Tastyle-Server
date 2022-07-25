@@ -19,7 +19,13 @@ public enum ErrorCode {
     INVALID_LOGIN_TYPE(HttpStatus.BAD_REQUEST, 1202, "잘못된 로그인 타입입니다."),
 
     /* User */
-    NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, 1300, "해당 유저를 찾을 수 없습니다."),
+    NOT_FOUND_USER(HttpStatus.NOT_FOUND, 1300, "해당 유저를 찾을 수 없습니다."),
+
+    /* Rating */
+
+    /* Restaurant */
+    NOT_FOUND_RESTAURANT(HttpStatus.NOT_FOUND, 1400, "해당 음식점을 찾을 수 없습니다."),
+
 
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, 4000, "잘못된 입력값입니다."),
     FORBIDDEN(HttpStatus.FORBIDDEN, 4001, "권한이 없습니다."),

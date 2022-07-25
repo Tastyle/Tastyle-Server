@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> allHandleException(Exception e){
-        log.error("Handle All Exception: {}", e.getMessage());
+        log.error("Handle All Exception: {}", e.getClass());
         return ErrorResponse.toAllExceptionEntity(e);
     }
 }

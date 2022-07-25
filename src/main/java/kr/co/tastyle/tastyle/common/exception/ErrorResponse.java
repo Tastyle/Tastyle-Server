@@ -1,12 +1,9 @@
 package kr.co.tastyle.tastyle.common.exception;
 
 import lombok.*;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
-import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.Map;
 
 import static kr.co.tastyle.tastyle.common.exception.ErrorCode.MAX_UPLOAD_SIZE;
@@ -66,7 +63,7 @@ public class ErrorResponse<T> {
                 .internalServerError()
                 .body(ErrorResponse.builder()
                         .code(errorCode.getCode())
-                        .message(e.getMessage())
+                        .message(errorCode.getMessage())
                         .build());
     }
 

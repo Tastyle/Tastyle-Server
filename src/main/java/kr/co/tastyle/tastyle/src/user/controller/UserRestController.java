@@ -40,7 +40,7 @@ public class UserRestController {
     }
 
     /**
-     * 마이 페이지 정보 수정
+     * 마이 페이지 수정
      */
     @PatchMapping("")
     public CommonResponse<Void> updateMyPage(@AuthenticationPrincipal SecurityUser securityUser, UpdateMyPageRequest updateMyPageRequest) {

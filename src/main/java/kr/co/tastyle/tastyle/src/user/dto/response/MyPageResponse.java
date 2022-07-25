@@ -9,8 +9,8 @@ import javax.persistence.Enumerated;
 
 @Getter
 @Builder
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@AllArgsConstructor
 public class MyPageResponse {
     private String profileImgUrl;
     private String nickname;

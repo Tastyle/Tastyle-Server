@@ -3,9 +3,9 @@ package kr.co.tastyle.tastyle.src.user.service;
 import kr.co.tastyle.tastyle.common.exception.CommonException;
 import kr.co.tastyle.tastyle.common.exception.ErrorCode;
 import kr.co.tastyle.tastyle.jwt.SecurityUser;
-import kr.co.tastyle.tastyle.jwt.SecurityUtil;
 import kr.co.tastyle.tastyle.src.user.domain.User;
 import kr.co.tastyle.tastyle.src.user.dto.request.SignUpRequest;
+import kr.co.tastyle.tastyle.src.user.dto.request.UpdateMyPageRequest;
 import kr.co.tastyle.tastyle.src.user.dto.response.MyPageResponse;
 import kr.co.tastyle.tastyle.src.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,15 +19,21 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void signUp(SignUpRequest signUpRequest) {
-        User user = userRepository.findById(SecurityUtil.getUserId())
+    public void signUp(SecurityUser securityUser, SignUpRequest signUpRequest) {
+        User user = userRepository.findById(securityUser.getUserId())
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
-
         user.signUp(signUpRequest);
     }
 
     @Transactional
-    public MyPageResponse getMyPage() {
-        return MyPageResponse.of(SecurityUtil.getUser());
+    public MyPageResponse getMyPage(SecurityUser securityUser) {
+        return MyPageResponse.of(securityUser.getUser());
+    }
+
+    @Transactional
+    public void updateMyPage(SecurityUser securityUser, UpdateMyPageRequest updateMyPageRequest) {
+        User user = userRepository.findById(securityUser.getUserId())
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+        user.updateMyPage(updateMyPageRequest);
     }
 }

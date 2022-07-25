@@ -7,6 +7,7 @@ import kr.co.tastyle.tastyle.src.user.domain.enums.LoginType;
 import kr.co.tastyle.tastyle.src.user.domain.enums.Role;
 import kr.co.tastyle.tastyle.src.user.domain.enums.Sex;
 import kr.co.tastyle.tastyle.src.user.dto.request.SignUpRequest;
+import kr.co.tastyle.tastyle.src.user.dto.request.UpdateMyPageRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -69,5 +70,13 @@ public class User extends BaseTimeEntity {
         this.introduction = signUpRequest.getIntroduction();
         this.sex = signUpRequest.getSex();
         this.birthDate = signUpRequest.getBirthDate();
+    }
+
+    public void updateMyPage(UpdateMyPageRequest myPageRequest) {
+        this.nickname = myPageRequest.getNickname();
+        this.profileImgUrl = myPageRequest.getProfileImgUrl();
+        this.introduction = myPageRequest.getIntroduction();
+        this.sex = myPageRequest.getSex();
+        this.birthDate = myPageRequest.getBirthDate();
     }
 }

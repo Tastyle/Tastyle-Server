@@ -10,7 +10,6 @@ import java.util.List;
 
 @Getter
 @Entity
-@Builder
 @Table(name = "main_area")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)

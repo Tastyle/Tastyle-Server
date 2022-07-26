@@ -2,6 +2,7 @@ package kr.co.tastyle.tastyle.src.restaurant.domain;
 
 import kr.co.tastyle.tastyle.common.domain.BaseTimeEntity;
 import kr.co.tastyle.tastyle.src.area.domain.SubArea;
+import kr.co.tastyle.tastyle.src.restaurant.domain.enums.RestaurantType;
 import kr.co.tastyle.tastyle.src.user.domain.User;
 import lombok.*;
 
@@ -29,6 +30,9 @@ public class Restaurant extends BaseTimeEntity {
 
     private double longitude;
 
+    @Enumerated(EnumType.STRING)
+    private RestaurantType restaurantType;
+
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<RestaurantImages> restaurantImagesList = new ArrayList<>();
 
@@ -36,5 +40,5 @@ public class Restaurant extends BaseTimeEntity {
     @JoinColumn(name = "sub_area_id")
     private SubArea subArea;
 
-    private double isClosed;
+    private boolean isClosed;
 }

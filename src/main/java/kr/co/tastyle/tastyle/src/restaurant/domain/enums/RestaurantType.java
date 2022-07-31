@@ -8,7 +8,7 @@ import lombok.Getter;
 public enum RestaurantType {
     RESTAURANT("음식점"),
     CAFE("카페"),
-    BRA("술집")
+    BAR("술집")
 
     ;
     private final String descriptions;

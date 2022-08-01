@@ -5,6 +5,7 @@ import kr.co.tastyle.tastyle.common.exception.ErrorCode;
 import kr.co.tastyle.tastyle.common.response.ResponseCode;
 import kr.co.tastyle.tastyle.jwt.JwtProvider;
 import kr.co.tastyle.tastyle.jwt.SecurityUser;
+import kr.co.tastyle.tastyle.src.auth.client.ClientApple;
 import kr.co.tastyle.tastyle.src.auth.client.ClientGoogle;
 import kr.co.tastyle.tastyle.src.auth.dto.request.LoginRequest;
 import kr.co.tastyle.tastyle.src.auth.dto.response.LoginResponse;
@@ -29,6 +30,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final ClientKakao clientKakao;
     private final ClientGoogle clientGoogle;
+    private final ClientApple clientApple;
     private final JwtProvider jwtProvider;
 
     @Transactional
@@ -74,9 +76,17 @@ public class AuthService {
         else if (loginType.equals(GOOGLE)) {
             return getGoogleInfo(accessToken);
         }
+        else if (loginType.equals(APPLE)) {
+            return getAppleInfo(accessToken);
+        }
         else {
             throw new CommonException(ErrorCode.INVALID_LOGIN_TYPE);
         }
+    }
+
+    private String getAppleInfo(String accessToken) {
+        String socialId = clientApple.getUserInfo(accessToken);
+        return socialId;
     }
 
     private String getGoogleInfo(String accessToken) {

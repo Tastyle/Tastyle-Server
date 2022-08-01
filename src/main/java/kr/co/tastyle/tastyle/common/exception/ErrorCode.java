@@ -14,8 +14,8 @@ public enum ErrorCode {
     WRONG_TOKEN_SIGNATURE(HttpStatus.UNAUTHORIZED, 1104, "잘못된 JWT 서명입니다."),
 
     /* OAuth */
-    INVALID_KAKAO_TOKEN(HttpStatus.UNAUTHORIZED, 1200, "카카오 Access Token이 유효하지 않습니다."),
-    INVALID_KAKAO_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 1201, "카카오 로그인 서버에 접근하는 중 에러가 발생했습니다."),
+    INVALID_OAUTH_TOKEN(HttpStatus.UNAUTHORIZED, 1200, "OAuth Access Token이 유효하지 않습니다."),
+    INVALID_OAUTH_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 1201, "OAuth 서버에 접근하는 중 에러가 발생했습니다."),
     INVALID_LOGIN_TYPE(HttpStatus.BAD_REQUEST, 1202, "잘못된 로그인 타입입니다."),
 
     /* User */

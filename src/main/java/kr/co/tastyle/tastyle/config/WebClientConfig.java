@@ -23,12 +23,13 @@ public class WebClientConfig {
     public WebClient webClient() {
 
         ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
-                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(1024 * 1024 * 50)) // 50MB
-                .build(); // Spring WebFlux에서는 codec처리를 위한 in-memory buffer를 256KB로 설정되어 있음 -> 이 값을 늘리기 위한 설정
+                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(1024 * 1024 * 50))
+                .build();
+
         exchangeStrategies
                 .messageWriters().stream()
                 .filter(LoggingCodecSupport.class::isInstance)
-                .forEach(writer -> ((LoggingCodecSupport) writer).setEnableLoggingRequestDetails(true)); // 로그 상세 정보 확인
+                .forEach(writer -> ((LoggingCodecSupport) writer).setEnableLoggingRequestDetails(true));
 
         return WebClient.builder()
                 .clientConnector(
@@ -37,18 +38,18 @@ public class WebClientConfig {
                                         TcpClient
                                                 .create()
                                                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000)
-                                                .doOnConnected(conn -> conn.addHandler(new ReadTimeoutHandler(3000, TimeUnit.MILLISECONDS)))
+                                                .doOnConnected(conn -> conn.addHandlerLast(new ReadTimeoutHandler(3000, TimeUnit.MILLISECONDS)))
                                 )
                         ))
                 .exchangeStrategies(exchangeStrategies)
-                .filter(ExchangeFilterFunction.ofRequestProcessor( // client filters - request log 설정
+                .filter(ExchangeFilterFunction.ofRequestProcessor(
                         clientRequest -> {
                             log.debug("Request: {} {}", clientRequest.method(), clientRequest.url());
                             clientRequest.headers().forEach((name, values) -> values.forEach(value -> log.debug("{} : {}", name, value)));
                             return Mono.just(clientRequest);
                         }
                 ))
-                .filter(ExchangeFilterFunction.ofResponseProcessor( // client filters - response log 설정
+                .filter(ExchangeFilterFunction.ofResponseProcessor(
                         clientResponse -> {
                             clientResponse.headers().asHttpHeaders().forEach((name, values) -> values.forEach(value -> log.debug("{} : {}", name, value)));
                             return Mono.just(clientResponse);

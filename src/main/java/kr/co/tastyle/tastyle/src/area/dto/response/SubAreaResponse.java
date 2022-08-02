@@ -14,12 +14,12 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SubAreaResponse {
-    private Long id;
+    private Long subAreaId;
     private String subAreaName;
 
     public static SubAreaResponse of(SubArea subArea) {
         return SubAreaResponse.builder()
-                .id(subArea.getId())
+                .subAreaId(subArea.getId())
                 .subAreaName(subArea.getSubAreaName())
                 .build();
     }

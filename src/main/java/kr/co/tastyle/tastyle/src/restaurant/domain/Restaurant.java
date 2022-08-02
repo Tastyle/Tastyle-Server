@@ -20,7 +20,7 @@ public class Restaurant extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String restaurantName;
 
     private String address;
 
@@ -31,7 +31,7 @@ public class Restaurant extends BaseTimeEntity {
     private double longitude;
 
     @Enumerated(EnumType.STRING)
-    private RestaurantType restaurantType;
+    private RestaurantType type;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<RestaurantImages> restaurantImagesList = new ArrayList<>();

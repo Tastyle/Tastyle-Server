@@ -12,14 +12,14 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/restaurant")
+@RequestMapping("/api/v1/restaurants")
 public class RestaurantRestController {
     private final RestaurantService restaurantService;
 
     /**
      * Sub Area 선택 시 음식점 리스트 조회 for 평가하기 - 다중 선택 가능
      */
-    @GetMapping("")
+    @GetMapping("/rate")
     public CommonResponse<List<RestaurantRatingResponse>> getRestaurantListForRating(@RequestParam List<Long> subAreaId) {
         log.info("[RestaurantRestController] getRestaurantListForRating");
         List<RestaurantRatingResponse> response = restaurantService.getRestaurantListForRating(subAreaId);

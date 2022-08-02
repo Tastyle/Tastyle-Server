@@ -21,5 +21,5 @@ public class RestaurantImages {
 
     private String restaurantImageUrl;
 
-    private int imageOrder;
+    private int order;
 }

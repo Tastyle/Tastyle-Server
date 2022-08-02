@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @Transactional(readOnly = true)
@@ -20,4 +21,11 @@ public class RestaurantService {
         List<Restaurant> restaurantList = restaurantRepository.findAllBySubAreaIdIn(subAreaId);
         return RestaurantRatingResponse.ofList(restaurantList);
     }
+
+//    @Transactional
+//    public List<RestaurantRatingResponse> getRestaurantListForRating(List<Long> subAreaId) {
+//        Stream<Restaurant> restaurantStream = restaurantRepository.streamAllBySubAreaId(subAreaId);
+//        List<Restaurant> restaurantList = restaurantRepository.findAllBySubAreaIdIn(subAreaId);
+//        return RestaurantRatingResponse.ofList(restaurantList);
+//    }
 }

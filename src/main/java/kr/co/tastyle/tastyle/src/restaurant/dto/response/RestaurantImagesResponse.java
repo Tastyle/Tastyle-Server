@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 @Builder
 @NoArgsConstructor
@@ -16,9 +19,15 @@ public class RestaurantImagesResponse {
 
     public static RestaurantImagesResponse of(RestaurantImages restaurantImages) {
         return RestaurantImagesResponse.builder()
-                .imageOrder(restaurantImages.getImageOrder())
+                .imageOrder(restaurantImages.getOrder())
                 .restaurantImageUrl(restaurantImages.getRestaurantImageUrl())
                 .build();
+    }
+
+    public static List<RestaurantImagesResponse> ofList(List<RestaurantImages> restaurantImagesList) {
+        return restaurantImagesList.stream()
+                .map(RestaurantImagesResponse::of)
+                .collect(Collectors.toList());
     }
 
 }

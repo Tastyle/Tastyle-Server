@@ -48,4 +48,14 @@ public class UserRestController {
         userService.updateMyPage(securityUser, updateMyPageRequest);
         return new CommonResponse(ResponseCode.SUCCESS);
     }
+
+    /**
+     * 회원 탈퇴
+     */
+    @DeleteMapping("")
+    public CommonResponse<Void> deleteUser(@AuthenticationPrincipal SecurityUser securityUser) {
+        log.info("[UserRestController] deleteUser");
+        userService.deleteUser(securityUser);
+        return new CommonResponse(ResponseCode.SUCCESS);
+    }
 }

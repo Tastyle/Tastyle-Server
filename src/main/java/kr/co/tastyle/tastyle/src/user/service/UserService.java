@@ -36,4 +36,11 @@ public class UserService {
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
         user.updateMyPage(updateMyPageRequest);
     }
+
+    @Transactional
+    public void deleteUser(SecurityUser securityUser) {
+        User user = userRepository.findById(securityUser.getUserId())
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+        user.deleteUser();
+    }
 }

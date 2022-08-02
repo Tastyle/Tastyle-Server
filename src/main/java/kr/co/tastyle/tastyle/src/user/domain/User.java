@@ -2,24 +2,26 @@ package kr.co.tastyle.tastyle.src.user.domain;
 
 import kr.co.tastyle.tastyle.common.domain.BaseTimeEntity;
 import kr.co.tastyle.tastyle.common.domain.Status;
-import kr.co.tastyle.tastyle.src.user.domain.enums.DeviceType;
-import kr.co.tastyle.tastyle.src.user.domain.enums.LoginType;
-import kr.co.tastyle.tastyle.src.user.domain.enums.Role;
-import kr.co.tastyle.tastyle.src.user.domain.enums.Sex;
+import kr.co.tastyle.tastyle.jwt.SecurityUser;
+import kr.co.tastyle.tastyle.src.user.domain.enums.*;
 import kr.co.tastyle.tastyle.src.user.dto.request.SignUpRequest;
 import kr.co.tastyle.tastyle.src.user.dto.request.UpdateMyPageRequest;
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
 import static kr.co.tastyle.tastyle.common.domain.Status.NORMAL;
+import static kr.co.tastyle.tastyle.src.user.domain.enums.UserStatus.DELETED;
+import static kr.co.tastyle.tastyle.src.user.domain.enums.UserStatus.NOT_COMPLETED;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Builder
-@Table(name = "user")
+@Where(clause = "STATUS != 'DELETED'")
+@Table(name = "users")
 public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +53,7 @@ public class User extends BaseTimeEntity {
     private Role role;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private UserStatus status;
 
     public static User of(String socialId, LoginType loginType, String deviceToken, DeviceType deviceType) {
         return User.builder()
@@ -60,7 +62,7 @@ public class User extends BaseTimeEntity {
                 .deviceToken(deviceToken)
                 .deviceType(deviceType)
                 .role(Role.ROLE_USER)
-                .status(NORMAL)
+                .status(NOT_COMPLETED)
                 .build();
     }
 
@@ -70,6 +72,7 @@ public class User extends BaseTimeEntity {
         this.introduction = signUpRequest.getIntroduction();
         this.sex = signUpRequest.getSex();
         this.birthDate = signUpRequest.getBirthDate();
+        this.status = UserStatus.NORMAL;
     }
 
     public void updateMyPage(UpdateMyPageRequest myPageRequest) {
@@ -78,5 +81,9 @@ public class User extends BaseTimeEntity {
         this.introduction = myPageRequest.getIntroduction();
         this.sex = myPageRequest.getSex();
         this.birthDate = myPageRequest.getBirthDate();
+    }
+
+    public void deleteUser() {
+        this.status = UserStatus.DELETED;
     }
 }

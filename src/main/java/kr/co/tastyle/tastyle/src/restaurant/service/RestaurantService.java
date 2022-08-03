@@ -4,6 +4,10 @@ import kr.co.tastyle.tastyle.src.restaurant.domain.Restaurant;
 import kr.co.tastyle.tastyle.src.restaurant.dto.response.RestaurantRatingResponse;
 import kr.co.tastyle.tastyle.src.restaurant.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,15 +21,8 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
 
     @Transactional
-    public List<RestaurantRatingResponse> getRestaurantListForRating(List<Long> subAreaId) {
-        List<Restaurant> restaurantList = restaurantRepository.findAllBySubAreaIdIn(subAreaId);
+    public List<RestaurantRatingResponse> getRestaurantListForRating(List<Long> subAreaId, Pageable pageable) {
+        List<Restaurant> restaurantList = restaurantRepository.findAllBySubAreaIdIn(subAreaId, pageable);
         return RestaurantRatingResponse.ofList(restaurantList);
     }
-
-//    @Transactional
-//    public List<RestaurantRatingResponse> getRestaurantListForRating(List<Long> subAreaId) {
-//        Stream<Restaurant> restaurantStream = restaurantRepository.streamAllBySubAreaId(subAreaId);
-//        List<Restaurant> restaurantList = restaurantRepository.findAllBySubAreaIdIn(subAreaId);
-//        return RestaurantRatingResponse.ofList(restaurantList);
-//    }
 }
